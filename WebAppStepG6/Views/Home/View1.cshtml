@@ -1,0 +1,37 @@
+﻿<!--HTML-->
+
+<h1>My First View ;)</h1>
+<!--CSS-->
+<style>
+h1{
+    color:green;
+    background-color:aquamarine;
+}
+</style>
+<!--Razor Engion : Syntax C# server side -->
+<!--Block of code-->
+@{
+    int x=10;//C# || HTML
+    int y = x + 10;
+    <h3>Hiiiiii From C# </h3>
+}
+<!--Inline code C# one line == return value display-->
+<h1>@(x + y)</h1>
+<hr />
+<!--condtion statment if ,switch-->
+@if (x > y)
+{
+    <h2>X greater than Y</h2>
+}
+else
+{
+    <h2>X= @x Less than Y = @y</h2>
+
+}
+<!-- Iteration for -while - do while - foreach-->
+<select class="form form-control">
+    @for (int i = 1; i < 10; i++)
+    {
+        <option>@i</option>
+    }
+</select>
