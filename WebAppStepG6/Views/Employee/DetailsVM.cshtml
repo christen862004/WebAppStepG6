@@ -1,0 +1,17 @@
+﻿@* @using WebAppStepG6.ViewModels *@
+@model EmpWithMsgTempColorDeptListViewModel
+@* @model WebAppStepG6.ViewModels.EmpWithMsgTempColorDeptListViewModel *@
+@{
+    ViewData["Title"] = "DetailsVM";
+}
+
+<h1>DetailsVM</h1>
+<h2 style="color:@Model.Color">@Model.EmpName</h2>
+<h3>@(Model.Temp+10)</h3>
+<h3>@Model.Message</h3>
+<select class="form form-control">
+    @foreach (var item in Model.DeptList)
+    {
+        <option>@item</option>
+    }
+</select>

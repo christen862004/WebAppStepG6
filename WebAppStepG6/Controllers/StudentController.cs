@@ -15,5 +15,12 @@ namespace WebAppStepG6.Controllers
         }
         //Views/Student/ShowAll.cshtml
         //Views/Shared/ShowAll.cshtml
+        public IActionResult Details(int id)
+        {
+            Student std=studntBl.GetById(id);
+            if (std == null)
+                return NotFound();
+            return View("Details",std);//go to view Details =Model Student
+        }
     }
 }
