@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WebAppStepG6.Models;
 using WebAppStepG6.ViewModels;
@@ -14,6 +15,15 @@ namespace WebAppStepG6.Controllers
         {
             return View("Index", context.Employees.ToList());//view =Index,Model List<employee>
         }
+       // http://localhost:27103/Employee/CheckSalary?Salary=1000
+        public IActionResult CheckSalary(int Salary,int DepartmentId)
+        {
+            if (Salary > 7000)
+                return Json(true);
+            else
+                return Json("Saalry Must Be More Than 7000");//
+        }
+
         #region NEw
         public IActionResult New()
         {
@@ -22,12 +32,19 @@ namespace WebAppStepG6.Controllers
         }
         [HttpPost]
         public IActionResult SaveNew(Employee empFromReq) {
-            if(empFromReq.Name!=null&& empFromReq.Salary > 7000)
-            { 
-                context.Employees.Add(empFromReq);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Employee");
-            
+            if(ModelState.IsValid==true)
+            {
+                try
+                {
+                    context.Employees.Add(empFromReq);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Employee");
+                }catch (Exception ex)
+                {
+                    //send exception front add cusotm error in modelstate
+                    ModelState.AddModelError("ExKey", ex.InnerException.Message);
+
+                }
             }
             ViewBag.DeptList = context.Departments.ToList();
             return View("New",empFromReq);

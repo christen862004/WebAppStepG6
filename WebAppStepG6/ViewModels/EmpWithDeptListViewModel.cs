@@ -15,6 +15,6 @@ namespace WebAppStepG6.ViewModels
         public int Salary { get; set; }
         public int DepartmentId { get; set; }
 
-        public List<Department> DeptList { get; set; }
+        public List<Department>? DeptList { get; set; }
     }
 }
