@@ -8,7 +8,7 @@ namespace WebAppStepG6.Models
         {
             string name = value.ToString();
             Employee? empFromReq = validationContext.ObjectInstance as Employee;
-
+            //empFromReq.ID!=0 edit ,=0 new
             StepsContext context = new StepsContext();
             //valiadtion name with departmen
             Employee empfromDB= context.Employees.FirstOrDefault(e=>e.Name== name &&e.DepartmentId==empFromReq.DepartmentId);

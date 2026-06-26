@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAppStepG6.Models;
+using WebAppStepG6.Repository;
 
 namespace WebAppStepG6.Controllers
 {
     public class DepartmentController : Controller
     {
-        StepsContext context = new StepsContext();
-        public DepartmentController()
+        // StepsContext context = new StepsContext();
+        IDepartmentRepository deptRepo;
+        public DepartmentController(IDepartmentRepository _deprepo)
         {
-            
+            deptRepo = _deprepo;//new DepartmentRepository();
         }
         public IActionResult Index()
         {
-            List<Department> deptlist= context.Departments.ToList();
+            List<Department> deptlist=deptRepo.GetAll();
             return View("Index",deptlist);
         }
         #region New
@@ -33,8 +35,8 @@ namespace WebAppStepG6.Controllers
             if(deptFromRequest.Name != null)
             {
                 //saev
-                context.Departments.Add(deptFromRequest);
-                context.SaveChanges();
+                deptRepo.Add(deptFromRequest);
+                deptRepo.Save();
                 // List<Department> deptlist = context.Departments.ToList();
 
                 return RedirectToAction(actionName: "Index", controllerName: "Department");

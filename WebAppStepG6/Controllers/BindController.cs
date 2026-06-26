@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAppStepG6.Models;
+using WebAppStepG6.Repository;
 
 namespace WebAppStepG6.Controllers
 {
@@ -15,6 +16,7 @@ namespace WebAppStepG6.Controllers
         [HttpGet]
         public IActionResult method1()
         {
+
             return Content("M1 get");
         }
      

@@ -1,7 +1,72 @@
-﻿using System.Runtime.InteropServices;
+﻿using Microsoft.Identity.Client;
+using NuGet.Common;
+using System.Runtime.InteropServices;
 
 namespace WebAppStepG6.Models
 {
+    interface ISort
+    {
+        void Sort(int[] arr);
+    }
+    class BubbleSort:ISort
+    {
+        public void Sort(int[] arr)
+        {
+
+        }
+    }
+    class ChrisSort : ISort
+    {
+        public void Sort(int[] arr)
+        {
+
+        }
+    }
+    //extend
+    class SelectionSort:ISort
+    {
+        public void Sort(int[] arr) { }
+    }
+    //DIP :based on abstrat ,interface
+    class MyList//high level
+    {
+        int[] arr;
+        ISort sortAlg; //low level
+        public MyList(ISort _sortAlg)//injection dont create but ask "create myllist"
+        {
+            arr=new int[10];
+            sortAlg = _sortAlg;//new BubbleSort();//??? specific type
+        }
+        public void SortList()
+        {
+            sortAlg.Sort(arr);
+        }
+
+    }
+    class testClass2
+    {
+        public void Test()
+        {
+            MyList l1 = new MyList(new BubbleSort());
+            l1.SortList();//using bubble
+            MyList l2 = new MyList(new ChrisSort());
+            l2.SortList();//using SelectionSort
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     public class TestClass
     {
         //dynamic pro;

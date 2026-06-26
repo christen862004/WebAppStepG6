@@ -3,17 +3,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WebAppStepG6.Models;
+using WebAppStepG6.Repository;
 using WebAppStepG6.ViewModels;
 
 namespace WebAppStepG6.Controllers
 {
     public class EmployeeController : Controller
     {
-        StepsContext context=new StepsContext();
+        // StepsContext context=new StepsContext();
+        IEmployeeRepository empRepo;
+        IDepartmentRepository deptRepo;
+        public EmployeeController(IEmployeeRepository emprepo,IDepartmentRepository deptrepo)
+        {
+            empRepo = emprepo;// new EmployeeRepository();
+            deptRepo = deptrepo;// new DepartmentRepository();
 
+        }
         public IActionResult Index()
         {
-            return View("Index", context.Employees.ToList());//view =Index,Model List<employee>
+            return View("Index", empRepo.GetAll());//view =Index,Model List<employee>
         }
        // http://localhost:27103/Employee/CheckSalary?Salary=1000
         public IActionResult CheckSalary(int Salary,int DepartmentId)
@@ -27,7 +35,7 @@ namespace WebAppStepG6.Controllers
         #region NEw
         public IActionResult New()
         {
-            ViewBag.DeptList = context.Departments.ToList();
+            ViewBag.DeptList = deptRepo.GetAll();
             return View("New");
         }
         [HttpPost]
@@ -36,8 +44,8 @@ namespace WebAppStepG6.Controllers
             {
                 try
                 {
-                    context.Employees.Add(empFromReq);
-                    context.SaveChanges();
+                    empRepo.Add(empFromReq);
+                    empRepo.Save();
                     return RedirectToAction("Index", "Employee");
                 }catch (Exception ex)
                 {
@@ -46,7 +54,7 @@ namespace WebAppStepG6.Controllers
 
                 }
             }
-            ViewBag.DeptList = context.Departments.ToList();
+            ViewBag.DeptList = deptRepo.GetAll();
             return View("New",empFromReq);
         
         }
@@ -56,8 +64,8 @@ namespace WebAppStepG6.Controllers
         public IActionResult Edit(int id)
         {
             //get org emp from db
-            Employee empFromDb = context.Employees.FirstOrDefault(e => e.Id == id);
-            List<Department> departmentList = context.Departments.ToList();
+            Employee empFromDb = empRepo.GetById(id);
+            List<Department> departmentList = deptRepo.GetAll();
             //IEnumerable<SelectListItem> items = departmentList;
             if (empFromDb!=null)
             {
@@ -80,20 +88,23 @@ namespace WebAppStepG6.Controllers
         public IActionResult SaveEdit(EmpWithDeptListViewModel empFromReq,int id)
         {
             //valiadtion
-            if(empFromReq.EmpName!=null) { 
+            if(empFromReq.EmpName!=null) {
                 //org obj
-                Employee empFromDb=context.Employees.FirstOrDefault(e=>e.Id==id);
+                //declare mdoel mapping viewModel
+                Employee empFromDb = new Employee();
+                empFromDb.Id = id;
                 //chage
                 empFromDb.Name=empFromReq.EmpName;
                 empFromDb.Salary=empFromReq.Salary;
                 empFromDb.ImageUrl=empFromReq.ImageUrl;
                 empFromDb.DepartmentId=empFromReq.DepartmentId;
+                empRepo.Update(empFromDb);
                 //save
-                context.SaveChanges();
+                empRepo.Save();
                 return RedirectToAction("Index", "Employee");
             }
             empFromReq.EmpId = id;
-            empFromReq.DeptList = context.Departments.ToList();
+            empFromReq.DeptList = deptRepo.GetAll();
             return View("Edit", empFromReq);
         }
         #endregion
@@ -105,14 +116,14 @@ namespace WebAppStepG6.Controllers
         {
             string msg = "hello";
             int temp = 10;
-            List<string> DeptList=context.Departments.Select(x => x.Name).ToList();
+            List<string> DeptList =deptRepo.GetAll().Select(x=>x.Name).ToList();// context.Departments.Select(x => x.Name).ToList();
             ViewData["Msg"] = msg;
             ViewData["Temp"] = temp;
             ViewData["DeptList"] = DeptList;
             ViewData["Color"] = "Blue";//override , throe exception ,separate
             ViewBag.Color = "red";
 
-            Employee empModel= context.Employees.FirstOrDefault(e => e.Id == id);
+            Employee empModel = empRepo.GetById(id);
             return View("Details",empModel);
         }
         public IActionResult DetailsVM(int id)
@@ -120,9 +131,10 @@ namespace WebAppStepG6.Controllers
             //Collect data from differnt souce
             string msg = "hello";
             int temp = 10;
-            List<string> DeptList = context.Departments.Select(x => x.Name).ToList();
-         
-            Employee empModel = context.Employees.FirstOrDefault(e => e.Id == id);
+            List<string> DeptList =deptRepo.GetAll().Select(x=>x.Name).ToList();// context.Departments.Select(x => x.Name).ToList();
+
+
+            Employee empModel = empRepo.GetById(id);
             //declare ViewModel object - Mapping
             EmpWithMsgTempColorDeptListViewModel EmpVM = new() { 
                 EmpId=empModel.Id,
