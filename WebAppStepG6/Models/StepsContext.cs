@@ -16,14 +16,17 @@ namespace WebAppStepG6.Models
          3) Login Auth
          4) Databse name
          */
-        public StepsContext():base()
-        {
-            
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=StepsG6;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
-            base.OnConfiguring(optionsBuilder);
-        }
+        public StepsContext(DbContextOptions<StepsContext> options):base(options) { }
+
+        //public StepsContext() : base()
+        //{
+
+
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=StepsG6;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
     }
 }

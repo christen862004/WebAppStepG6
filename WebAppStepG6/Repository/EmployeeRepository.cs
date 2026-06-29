@@ -5,9 +5,9 @@ namespace WebAppStepG6.Repository
     public class EmployeeRepository : IEmployeeRepository
     {
         StepsContext context;
-        public EmployeeRepository()
+        public EmployeeRepository(StepsContext _context)
         {
-            context = new StepsContext();
+            context =_context ;// new StepsContext();
         }
         //CRDU
         public void Add(Employee entity)

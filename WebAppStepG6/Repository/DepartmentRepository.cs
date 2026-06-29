@@ -5,9 +5,9 @@ namespace WebAppStepG6.Repository
     public class DepartmentRepository : IDepartmentRepository
     {
         StepsContext context;
-        public DepartmentRepository()
+        public DepartmentRepository(StepsContext _context)
         {
-            context = new StepsContext();
+            context =_context ;// new StepsContext();
         }
         //CRUD
         public void Add(Department entity)

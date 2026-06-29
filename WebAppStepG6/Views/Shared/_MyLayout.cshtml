@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div style="height:150px;background-color:aquamarine;font-size:30px">
+        Header
+        <div style="background-color:antiquewhite;margin:10px">
+            @RenderSection("HeadSection")  <!--required section-->
+        </div>
+    </div>
+    <div style="background-color:antiquewhite">
+        @RenderBody()
+    </div>
+    <div style="background-color:aquamarine;font-size:25px">
+        footer
+        <div style="background-color:antiquewhite;margin:5px">
+            @RenderSection("FootSection",false)  <!--optional Sectin-->
+        </div>
+    </div>
+</body>
+</html>

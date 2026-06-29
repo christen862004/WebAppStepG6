@@ -4,5 +4,6 @@ namespace WebAppStepG6.Repository
 {
     public interface IEmployeeRepository:IRepository<Employee>
     {
+        //Mehtod employee +common method interface IRepository
     }
 }
