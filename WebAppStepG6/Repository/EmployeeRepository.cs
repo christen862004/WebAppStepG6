@@ -12,6 +12,7 @@ namespace WebAppStepG6.Repository
         //CRDU
         public void Add(Employee entity)
         {
+            //context.(entity);
             context.Employees.Add(entity);
         }
 
