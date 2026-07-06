@@ -11,6 +11,7 @@ namespace WebAppStepG6.Controllers
         public DepartmentController(IDepartmentRepository _deprepo)
         {
             deptRepo = _deprepo;//new DepartmentRepository();
+           
         }
         public IActionResult Index()
         {
