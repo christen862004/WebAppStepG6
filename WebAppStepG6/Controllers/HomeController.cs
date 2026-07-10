@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebAppStepG6.Models;
@@ -9,6 +10,7 @@ namespace WebAppStepG6.Controllers
      1) class name suffix  (endwith ) Controller
      2) class inherit from Controller class
      */
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,6 +25,7 @@ namespace WebAppStepG6.Controllers
          * 3) Method cant overload (only in one case)
          */
         //url :/Home/ShowMsg  "endpoint"
+        
         public ContentResult ShowMsg()
         {
             //Logic
@@ -88,7 +91,6 @@ namespace WebAppStepG6.Controllers
          * ......
          
          */
-
 
 
 

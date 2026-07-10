@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebAppStepG6.Filtters;
 using WebAppStepG6.Models;
 using WebAppStepG6.Repository;
 
@@ -15,6 +16,10 @@ namespace WebAppStepG6
             //1) built in service already register
             //2) built in service need to register 
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddControllersWithViews(options =>
+            //{
+            //    options.Filters.Add(new HandelErrorAttribute());//global filter (app scop)
+            //});
             builder.Services.AddDbContext<StepsContext>(optionsBuilder =>
             {
                  optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
@@ -65,13 +70,23 @@ namespace WebAppStepG6
 
             app.UseSession();//write session ,csreat session
 
-            app.UseRouting();
+            app.UseRouting();//security (Mapping) seeltc specifi crout to execute
 
             app.UseAuthorization();
 
+            //app.MapControllerRoute(name: "rout1", pattern: "r1/{age:int:range(20,60)}/{name?}",
+            //    defaults:new {controller="Route",action="Method1" });//route
+            //app.MapControllerRoute(name: "rout1", pattern: "{controller=Home}/{action=Index}/{id?}");//route constrint
+
+            //app.MapControllerRoute(name: "rout2", pattern: "r2",
+            //    defaults: new { controller = "Route", action = "Method2" });
+
+            //app.MapControllerRoute(name: "emp", pattern: "e/{action}",
+            //    defaults: new { controller = "Employee", action = "Index" });
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");//staff (decalre route ,execute)
             #endregion
             app.Run();
         }
