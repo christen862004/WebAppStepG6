@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.CodeDom;
 
 namespace WebAppStepG6.Models
 {
     //
-    public class StepsContext:DbContext
+    public class StepsContext:IdentityDbContext<ApplicationUser>
     {
         //class =>table
         public DbSet<Employee> Employees { get; set; }
