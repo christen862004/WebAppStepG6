@@ -1,9 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace WebAppStepG6.Controllers
 {
     public class StateController : Controller
     {
+        //[Authorize]
+        public IActionResult Welcome()
+        {
+            
+            if(User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    return Content($"Welcome {User.Identity.Name} \tAdmin");
+
+                }
+                Claim idClaim = User.Claims.FirstOrDefault(c=>c.Type==ClaimTypes.NameIdentifier);
+                string id = idClaim.Value;
+
+
+                Claim addressClaim = User.Claims.FirstOrDefault(c => c.Type == "Address");
+
+                return Content($"Welcome {User.Identity.Name} \t id={id}\t address={addressClaim.Value}");
+
+
+            }
+            //Gust
+
+            return Content("Welcome Gust");
+        }
+
+
         //State/Setsession?name=ahmed&age=12
         public IActionResult SetSession(string name,int age)
         {

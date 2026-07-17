@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace WebAppStepG6.Controllers
             deptRepo = deptrepo;// new DepartmentRepository();
 
         }
+        [Authorize]//check cookie
         public IActionResult Index()
         {
             return View("Index", empRepo.GetAll());//view =Index,Model List<employee>

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebAppStepG6.Filtters;
 using WebAppStepG6.Models;
@@ -29,6 +30,14 @@ namespace WebAppStepG6
             {
                 options.IdleTimeout= TimeSpan.FromMinutes(30);
             });//used default
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 4;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<StepsContext>();
+
+
 
             //3) Custom service need to register
             builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
